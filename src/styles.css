@@ -1,0 +1,159 @@
+body {
+  background: black;
+  padding: 5rem 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.container {
+  padding: 5%;
+  display: block;
+  margin: 0 auto;
+  background-image: linear-gradient(150deg, #e4efe9 0%, #aabff0 80%);
+  /* background-image: linear-gradient(135deg, #fff1eb 0%, #ace0f9 100%); */
+  max-width: 60%;
+  min-width: 400px;
+  border-radius: 0.5rem;
+}
+
+.col-8 {
+  padding-right: 0px;
+}
+
+#current-location {
+  line-height: 10px;
+  font-size: 0.7rem;
+  border-radius: 0.7rem;
+  color: #fff;
+  background-color: #aabff0;
+  border: 0.5px lightgrey solid;
+  padding: 5px 7px;
+  display: block;
+  margin: 0 auto;
+  outline: none;
+}
+
+.unit-container {
+  display: inline-block;
+  white-space: nowrap;
+  padding-top: 3px;
+  padding-left: 2px;
+}
+
+.unit {
+  color: black;
+}
+
+.unit:hover {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.selected {
+  font-weight: 700;
+}
+
+.selected:hover {
+  color: #000;
+  cursor: default;
+}
+
+.hide {
+  display: none;
+}
+
+h1,
+h2 {
+  text-align: center;
+}
+
+.feature {
+  text-align: center;
+  font-size: 20px;
+}
+
+.feature-desc {
+  font-weight: 500;
+  font-style: italic;
+}
+.date-display {
+  margin: 0;
+}
+
+.feature-icon {
+  font-size: 9rem;
+}
+
+.fa-sun {
+  color: rgb(255, 215, 0, 0.7);
+}
+
+.fa-wind {
+  color: rgb(202, 214, 216);
+}
+
+.fa-cloud-sun {
+  /* color: rgb(245, 239, 156); */
+  /* color: #b8eff2; */
+  color: #f2dcb8;
+}
+
+.fa-poo-storm {
+  color: rgb(152, 172, 201);
+}
+
+.fa-cloud-showers-heavy {
+  color: #695d6f;
+}
+
+.fa-snowflake {
+  color: lightblue;
+}
+
+.week {
+  padding-top: 40px;
+}
+
+#day {
+  padding: 2px 0;
+}
+.dayName {
+  text-transform: uppercase;
+}
+.card {
+  flex-direction: inherit !important;
+}
+
+.card-body {
+  margin-bottom: -3px;
+}
+
+.card-body:after {
+  display: block;
+  content: "";
+  width: 0%;
+  border-bottom: 3px solid #000;
+  transition: all 250ms ease-in-out;
+}
+
+.card-body:hover:after {
+  width: 100%;
+}
+.week-icon {
+  font-size: 25px;
+}
+
+.warm-bgd {
+  background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
+}
+
+.noSelect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
