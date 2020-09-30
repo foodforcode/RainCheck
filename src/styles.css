@@ -1,5 +1,5 @@
 body {
-  background: black;
+  background: #12171a;
   padding: 5rem 0;
   font-family: "Raleway", sans-serif;
   font-weight: 500;
@@ -156,4 +156,8 @@ h2 {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+#github {
+  color: white;
 }
