@@ -1,4 +1,5 @@
 let unitButtons = document.querySelectorAll(".unit");
+let cityInput = document.querySelector("#city-input");
 
 function displayDate() {
   let date = new Date();
@@ -34,9 +35,6 @@ function displayDate() {
 
 displayDate();
 
-let form = document.querySelector(".input-form");
-form.addEventListener("submit", searchCity);
-
 function displayCityWeather(response) {
   let featureTemp = document.querySelector("#feature-temp");
   let cityDisplay = document.querySelector(".city");
@@ -44,6 +42,7 @@ function displayCityWeather(response) {
   let featureDesc = document.querySelector(".feature-desc");
   let city = response.data.name;
   let country = response.data.sys.country;
+  farenheit = response.data.main.temp;
   featureTemp.innerHTML = Math.round(response.data.main.temp);
   cityDisplay.innerHTML = `${city}, ${country}`;
   featureDesc.innerHTML = response.data.weather[0].description;
@@ -86,16 +85,17 @@ function displayCityWeather(response) {
   }
 }
 
-function searchCity(event) {
-  let destination = document.querySelector("#city-input");
-  event.preventDefault();
-  let city = destination.value;
-  let apiEnd = "https://api.openweathermap.org/data/2.5/weather?";
+function searchCity(city) {
   let apiKey = "2a534937b5f8acf07d8f3ef2e0bea454";
-  let apiUrl = `${apiEnd}q=${city}&units=imperial&appid=${apiKey}`;
-  destination.value = "";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
+  // destination.value = "";
   axios.get(apiUrl).then(displayCityWeather);
-  console.log(apiUrl);
+  // console.log(apiUrl);
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  searchCity(cityInput.value);
 }
 
 let currentLocation = document.querySelector("#current-location");
@@ -108,12 +108,17 @@ function getCurrentWeather(position) {
   let apiEnd = "https://api.openweathermap.org/data/2.5/weather?";
   let apiKey = "2a534937b5f8acf07d8f3ef2e0bea454";
   let apiUrl = `${apiEnd}lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
+  cityInput.value = "Current Location";
   axios.get(apiUrl).then(displayCityWeather);
 }
 
-function getCurrentPosition(response) {
+function getCurrentPosition() {
   navigator.geolocation.getCurrentPosition(getCurrentWeather);
 }
+
+searchCity("San Francisco");
+let form = document.querySelector(".input-form");
+form.addEventListener("submit", handleSubmit);
 
 // getCurrentWeather();
 
@@ -158,31 +163,31 @@ function getCurrentPosition(response) {
 // }
 
 let featureTemp = document.querySelector("#feature-temp");
-let farenheit = Number(featureTemp);
+let farenheit;
 let unitF = document.querySelector("#unitF");
 let unitC = document.querySelector("#unitC");
 
-// function convertToCelsius(farenheit) {
-//   let celsius = Math.round((farenheit - 32) * (5 / 9));
-//   featureTemp.innerHTML = celsius;
-// }
-
-unitC.addEventListener("click", function () {
-  let celsius = Number(featureTemp.innerHTML);
-  featureTemp.innerHTML = Math.round((celsius - 32) * (5 / 9));
+function convertToCelsius() {
+  let celsius = (farenheit - 32) * (5 / 9);
+  featureTemp.innerHTML = Math.round(celsius);
   unitF.classList.toggle("selected");
   unitC.classList.toggle("selected");
-  unitF.classList.toggle("disabled");
-  unitC.classList.toggle("disabled");
-});
+}
+
+// unitC.addEventListener("click", function () {
+//   let celsius = Number(featureTemp.innerHTML);
+//   featureTemp.innerHTML = Math.round((celsius - 32) * (5 / 9));
+//   unitF.classList.toggle("selected");
+//   unitC.classList.toggle("selected");
+//   unitF.classList.toggle("disabled");
+//   unitC.classList.toggle("disabled");
+// });
 
 unitF.addEventListener("click", function () {
-  let farenheit = Number(featureTemp.innerHTML);
-  featureTemp.innerHTML = Math.round((farenheit * 9) / 5 + 32);
-  unitF.classList.toggle("selected");
-  unitC.classList.toggle("selected");
+  featureTemp.innerHTML = Math.round(farenheit);
+
   unitF.classList.toggle("disabled");
   unitC.classList.toggle("disabled");
 });
 
-// unitC.addEventListener("click", convertToCelsius(farenheit));
+unitC.addEventListener("click", convertToCelsius);
