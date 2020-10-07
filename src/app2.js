@@ -16,7 +16,6 @@ function displayDate() {
   let day = days[date.getDay()];
   let hour = date.getHours();
   let minute = date.getMinutes();
-  console.log(minute);
   if (hour < 10) {
     hour = `0${hour}`;
   } else if (hour !== 2300 && minute > 30) {
@@ -28,8 +27,6 @@ function displayDate() {
   if (minute < 10) {
     minute = `0${minute}`;
   }
-
-  console.log(hour);
   let dateDisplay = document.querySelector(".date-display");
 
   dateDisplay.innerHTML = `${day} ${hour}:${minute}`;
@@ -38,11 +35,12 @@ function displayDate() {
 displayDate();
 
 let form = document.querySelector(".input-form");
-form.addEventListener("keydown", searchCity);
+form.addEventListener("submit", searchCity);
 
 function displayCityWeather(response) {
   let featureTemp = document.querySelector("#feature-temp");
   let cityDisplay = document.querySelector(".city");
+  let featureIcon = document.querySelector("#feature-icon");
   let featureDesc = document.querySelector(".feature-desc");
   let city = response.data.name;
   let country = response.data.sys.country;
@@ -51,20 +49,53 @@ function displayCityWeather(response) {
   featureDesc.innerHTML = response.data.weather[0].description;
   displayDate();
   //update icons
+  if (response.data.weather[0].id == 800) {
+    featureIcon.setAttribute("class", "fas fa-sun");
+  } else if (
+    response.data.weather[0].id > 199 &&
+    response.data.weather[0].id < 300
+  ) {
+    featureIcon.setAttribute("class", "fas fa-poo-storm");
+  } else if (
+    (response.data.weather[0].id > 299 && response.data.weather[0].id < 312) ||
+    (response.data.weather[0].id >= 500 && response.data.weather[0].id < 502)
+  ) {
+    featureIcon.setAttribute("class", "fas fa-cloud-rain");
+  } else if (
+    response.data.weather[0].id >= 312 &&
+    response.data.weather[0].id < 600
+  ) {
+    featureIcon.setAttribute("class", "fas fa-cloud-showers-heavy");
+  } else if (
+    response.data.weather[0].id >= 600 &&
+    response.data.weather[0].id < 700
+  ) {
+    featureIcon.setAttribute("class", "far fa-snowflake");
+  } else if (
+    response.data.weather[0].id >= 700 &&
+    response.data.weather[0].id < 800
+  ) {
+    featureIcon.setAttribute("class", "fas fa-smog");
+  } else if (
+    response.data.weather[0].id == 801 ||
+    response.data.weather[0].id == 802
+  ) {
+    featureIcon.setAttribute("class", "fas fa-cloud-sun");
+  } else if (response.data.weather[0].id == 803 || 804) {
+    featureIcon.setAttribute("class", "fas fa-cloud");
+  }
 }
 
 function searchCity(event) {
   let destination = document.querySelector("#city-input");
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    let city = destination.value;
-    let apiEnd = "https://api.openweathermap.org/data/2.5/weather?";
-    let apiKey = "2a534937b5f8acf07d8f3ef2e0bea454";
-    let apiUrl = `${apiEnd}q=${city}&units=imperial&appid=${apiKey}`;
-    destination.value = "";
-    axios.get(apiUrl).then(displayCityWeather);
-    console.log(apiUrl);
-  }
+  event.preventDefault();
+  let city = destination.value;
+  let apiEnd = "https://api.openweathermap.org/data/2.5/weather?";
+  let apiKey = "2a534937b5f8acf07d8f3ef2e0bea454";
+  let apiUrl = `${apiEnd}q=${city}&units=imperial&appid=${apiKey}`;
+  destination.value = "";
+  axios.get(apiUrl).then(displayCityWeather);
+  console.log(apiUrl);
 }
 
 let currentLocation = document.querySelector("#current-location");
