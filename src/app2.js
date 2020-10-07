@@ -159,8 +159,8 @@ function getCurrentPosition(response) {
 
 let featureTemp = document.querySelector("#feature-temp");
 let farenheit = Number(featureTemp);
-let unitF = document.querySelector(".unitF");
-let unitC = document.querySelector(".unitC");
+let unitF = document.querySelector("#unitF");
+let unitC = document.querySelector("#unitC");
 
 // function convertToCelsius(farenheit) {
 //   let celsius = Math.round((farenheit - 32) * (5 / 9));
