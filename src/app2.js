@@ -1,5 +1,9 @@
 let unitButtons = document.querySelectorAll(".unit");
 let cityInput = document.querySelector("#city-input");
+let featureTemp = document.querySelector("#feature-temp");
+let farenheit;
+let unitF = document.querySelector("#unitF");
+let unitC = document.querySelector("#unitC");
 
 function displayDate() {
   let date = new Date();
@@ -33,8 +37,6 @@ function displayDate() {
   dateDisplay.innerHTML = `${day} ${hour}:${minute}`;
 }
 
-displayDate();
-
 function displayCityWeather(response) {
   let featureTemp = document.querySelector("#feature-temp");
   let cityDisplay = document.querySelector(".city");
@@ -47,7 +49,6 @@ function displayCityWeather(response) {
   cityDisplay.innerHTML = `${city}, ${country}`;
   featureDesc.innerHTML = response.data.weather[0].description;
   displayDate();
-  //update icons
   if (response.data.weather[0].id == 800) {
     featureIcon.setAttribute("class", "fas fa-sun");
   } else if (
@@ -116,78 +117,23 @@ function getCurrentPosition() {
   navigator.geolocation.getCurrentPosition(getCurrentWeather);
 }
 
-searchCity("San Francisco");
 let form = document.querySelector(".input-form");
 form.addEventListener("submit", handleSubmit);
 
-// getCurrentWeather();
-
-// let unitF = document.querySelector(".unitF");
-// let unitC = document.querySelector(".unitC");
-// let tempUnitF = document.querySelector("#tempUnitF");
-// let tempUnitC = document.querySelector("#tempUnitC");
-
-// unitF.addEventListener("click", function () {
-//   unitC.classList.remove("selected");
-//   unitF.classList.remove("selected");
-//   tempUnitC.classList.add("hide");
-//   unitF.classList.add("selected");
-//   tempUnitF.classList.remove("hide");
-// });
-// unitC.addEventListener("click", function () {
-//   unitF.classList.remove("selected");
-//   unitC.classList.remove("selected");
-//   tempUnitF.classList.add("hide");
-//   unitC.classList.add("selected");
-//   tempUnitC.classList.remove("hide");
-// });
-
-// let tempUnits = document.querySelectorAll(".tempUnit");
-
-// for (let i = 0; i < unitButtons.length; i++) {
-//   unitButtons.addEventListener("click", function () {
-//     unitButtons[0].classList.remove("selected");
-//     unitButtons[1].classList.remove("selected");
-//     if (this.textContent === "°C") {
-//       unitButtons[1].classList.add("selected");
-//       unitButtons[0].classList.remove("selected");
-//       tempUnit[0].classList.add("hide");
-//       tempUnit[1].classList.remove("hide");
-//     } else {
-//       unitButtons[0].classList.add("selected");
-//       unitButtons[1].classList.remove("selected");
-//       tempUnit[0].classList.remove("hide");
-//       tempUnit[1].classList.add("hide");
-//     }
-//   });
-// }
-
-let featureTemp = document.querySelector("#feature-temp");
-let farenheit;
-let unitF = document.querySelector("#unitF");
-let unitC = document.querySelector("#unitC");
-
-function convertToCelsius() {
-  let celsius = (farenheit - 32) * (5 / 9);
-  featureTemp.innerHTML = Math.round(celsius);
-  unitF.classList.toggle("selected");
-  unitC.classList.toggle("selected");
+for (let i = 0; i < unitButtons.length; i++) {
+  unitButtons[i].addEventListener("click", function (event) {
+    if (this.textContent === "°C") {
+      event.preventDefault();
+      unitButtons[1].classList.add("selected");
+      unitButtons[0].classList.remove("selected");
+      let celsius = (farenheit - 32) * (5 / 9);
+      featureTemp.innerHTML = Math.round(celsius);
+    } else if (this.textContent === "°F") {
+      event.preventDefault();
+      featureTemp.innerHTML = Math.round(farenheit);
+      unitButtons[0].classList.add("selected");
+      unitButtons[1].classList.remove("selected");
+    }
+  });
 }
-
-// unitC.addEventListener("click", function () {
-//   let celsius = Number(featureTemp.innerHTML);
-//   featureTemp.innerHTML = Math.round((celsius - 32) * (5 / 9));
-//   unitF.classList.toggle("selected");
-//   unitC.classList.toggle("selected");
-//   unitF.classList.toggle("disabled");
-//   unitC.classList.toggle("disabled");
-// });
-
-unitF.addEventListener("click", function () {
-  featureTemp.innerHTML = Math.round(farenheit);
-
-  unitF.classList.toggle("disabled");
-  unitC.classList.toggle("disabled");
-});
-
-unitC.addEventListener("click", convertToCelsius);
+searchCity("San Francisco");
