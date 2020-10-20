@@ -58,16 +58,16 @@
           </div>
           <div class="col-2">
             <div class="unit-container temp-units">
-              <a class="unit selected disabled" id="unitF" href="#">°F</a>
+              <a class="unit selected" id="unitF" href="#">°F</a>
               |
               <a class="unit" id="unitC" href="#">°C</a>
             </div>
           </div>
         </div>
         <div class="feature">
-          <h5 class="date-display">Today</h5>
-          <h1 class="city">San Francisco, CA</h1>
-          <h2><span id="feature-temp">70</span>°</h2>
+          <h5 class="date-display">Currently</h5>
+          <h1 class="city">San Francisco, US</h1>
+          <h2><span id="feature-temp"></span>°</h2>
           <p>
             <span class="icon-wrapper">
               <i id="feature-icon" class="fas fa-sun"></i>
@@ -77,11 +77,11 @@
           </p>
         </div>
         <div class="week row no-gutters">
-          <div class="card text-center col-sm-12 col-md-2">
+          <!-- <div class="card text-center col-sm-12 col-md-2">
             <div class="card-body" id="day">
               <p class="card-title dayName">tue</p>
               <p class="card-text week-icon">
-                <i class="fas fa-cloud-sun"></i>
+                <i class="fas fa-cloud-sun" id="day1icon"></i>
               </p>
             </div>
           </div>
@@ -89,7 +89,7 @@
             <div class="card-body" id="day">
               <p class="card-title dayName">wed</p>
               <p class="card-text week-icon">
-                <i class="fas fa-poo-storm"></i>
+                <i class="fas fa-poo-storm" id="day2icon"></i>
               </p>
             </div>
           </div>
@@ -97,7 +97,7 @@
             <div class="card-body" id="day">
               <p class="card-title dayName">thu</p>
               <p class="card-text week-icon">
-                <i class="fas fa-cloud-showers-heavy"></i>
+                <i class="fas fa-cloud-showers-heavy" id="day3icon"></i>
               </p>
             </div>
           </div>
@@ -105,7 +105,7 @@
             <div class="card-body" id="day">
               <p class="card-title dayName">fri</p>
               <p class="card-text week-icon">
-                <i class="fas fa-smog"></i>
+                <i class="fas fa-smog" id="day4icon"></i>
               </p>
             </div>
           </div>
@@ -113,7 +113,7 @@
             <div class="card-body" id="day">
               <p class="card-title dayName">sat</p>
               <p class="card-text week-icon">
-                <i class="far fa-snowflake"></i>
+                <i class="far fa-snowflake" id="day5icon"></i>
               </p>
             </div>
           </div>
@@ -121,16 +121,18 @@
             <div class="card-body" id="day">
               <p class="card-title dayName">sun</p>
               <p class="card-text week-icon">
-                <i class="fas fa-cloud-rain"></i>
+                <i class="fas fa-cloud-rain" id="day6icon"></i>
               </p>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div id="github">
       View source code on
-      <a href="https://github.com/foodforcode/RainCheck">Github</a>.
+      <a href="https://github.com/foodforcode/RainCheck" target="_blank"
+        ><i class="fab fa-github"></i> Github</a
+      >.
     </div>
     <script src="./src/app2.js"></script>
   </body>

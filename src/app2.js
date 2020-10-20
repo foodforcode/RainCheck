@@ -1,26 +1,18 @@
 let unitButtons = document.querySelectorAll(".unit");
 let cityInput = document.querySelector("#city-input");
 let featureTemp = document.querySelector("#feature-temp");
+let featureIcon = document.querySelector("#feature-icon");
+let dayIcon = document.querySelector("#dayIcon");
 let farenheit;
 let unitF = document.querySelector("#unitF");
 let unitC = document.querySelector("#unitC");
+let date = new Date();
+let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+let day = days[date.getDay()];
+let hour = date.getHours();
+let minute = date.getMinutes();
 
 function displayDate() {
-  let date = new Date();
-
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-
-  let day = days[date.getDay()];
-  let hour = date.getHours();
-  let minute = date.getMinutes();
   if (hour < 10) {
     hour = `0${hour}`;
   } else if (hour !== 2300 && minute > 30) {
@@ -37,10 +29,47 @@ function displayDate() {
   dateDisplay.innerHTML = `${day} ${hour}:${minute}`;
 }
 
+function displayWeatherIcon(response, icon) {
+  if (response.data.weather[0].id == 800) {
+    icon.setAttribute("class", "fas fa-sun");
+  } else if (
+    response.data.weather[0].id > 199 &&
+    response.data.weather[0].id < 300
+  ) {
+    icon.setAttribute("class", "fas fa-poo-storm");
+  } else if (
+    (response.data.weather[0].id > 299 && response.data.weather[0].id < 312) ||
+    (response.data.weather[0].id >= 500 && response.data.weather[0].id < 502)
+  ) {
+    icon.setAttribute("class", "fas fa-cloud-rain");
+  } else if (
+    response.data.weather[0].id >= 312 &&
+    response.data.weather[0].id < 600
+  ) {
+    icon.setAttribute("class", "fas fa-cloud-showers-heavy");
+  } else if (
+    response.data.weather[0].id >= 600 &&
+    response.data.weather[0].id < 700
+  ) {
+    icon.setAttribute("class", "far fa-snowflake");
+  } else if (
+    response.data.weather[0].id >= 700 &&
+    response.data.weather[0].id < 800
+  ) {
+    icon.setAttribute("class", "fas fa-smog");
+  } else if (
+    response.data.weather[0].id == 801 ||
+    response.data.weather[0].id == 802
+  ) {
+    icon.setAttribute("class", "fas fa-cloud-sun");
+  } else if (response.data.weather[0].id == 803 || 804) {
+    icon.setAttribute("class", "fas fa-cloud");
+  }
+}
+
 function displayCityWeather(response) {
   let featureTemp = document.querySelector("#feature-temp");
   let cityDisplay = document.querySelector(".city");
-  let featureIcon = document.querySelector("#feature-icon");
   let featureDesc = document.querySelector(".feature-desc");
   let city = response.data.name;
   let country = response.data.sys.country;
@@ -49,41 +78,7 @@ function displayCityWeather(response) {
   cityDisplay.innerHTML = `${city}, ${country}`;
   featureDesc.innerHTML = response.data.weather[0].description;
   displayDate();
-  if (response.data.weather[0].id == 800) {
-    featureIcon.setAttribute("class", "fas fa-sun");
-  } else if (
-    response.data.weather[0].id > 199 &&
-    response.data.weather[0].id < 300
-  ) {
-    featureIcon.setAttribute("class", "fas fa-poo-storm");
-  } else if (
-    (response.data.weather[0].id > 299 && response.data.weather[0].id < 312) ||
-    (response.data.weather[0].id >= 500 && response.data.weather[0].id < 502)
-  ) {
-    featureIcon.setAttribute("class", "fas fa-cloud-rain");
-  } else if (
-    response.data.weather[0].id >= 312 &&
-    response.data.weather[0].id < 600
-  ) {
-    featureIcon.setAttribute("class", "fas fa-cloud-showers-heavy");
-  } else if (
-    response.data.weather[0].id >= 600 &&
-    response.data.weather[0].id < 700
-  ) {
-    featureIcon.setAttribute("class", "far fa-snowflake");
-  } else if (
-    response.data.weather[0].id >= 700 &&
-    response.data.weather[0].id < 800
-  ) {
-    featureIcon.setAttribute("class", "fas fa-smog");
-  } else if (
-    response.data.weather[0].id == 801 ||
-    response.data.weather[0].id == 802
-  ) {
-    featureIcon.setAttribute("class", "fas fa-cloud-sun");
-  } else if (response.data.weather[0].id == 803 || 804) {
-    featureIcon.setAttribute("class", "fas fa-cloud");
-  }
+  displayWeatherIcon(response, featureIcon);
 }
 
 function searchCity(city) {
@@ -92,6 +87,52 @@ function searchCity(city) {
   axios.get(apiUrl).then(displayCityWeather);
   // console.log(apiUrl);
 }
+
+function logForecast(response) {
+  // console.log(response.data);
+
+  let weekDisplay = document.querySelector(".week");
+  let forecastDay = new Date();
+  let week = 7;
+  for (i = 0; i < week; i++) {
+    console.log(days[i]);
+    console.log(response.data.daily[i]);
+    if (days[i] !== days[forecastDay.getDay()]) {
+      weekDisplay.innerHTML += `
+          <div class="card text-center col-sm-12 col-md-2">
+            <div class="card-body" id="day">
+              <span class="card-title dayName">${days[i]}</span><br />
+              <i class="fas fa-cloud" id="dayIcon"></i>
+              <p class="card-text week-icon">${Math.round(
+                response.data.daily[i].temp.min
+              )} -
+                ${Math.round(response.data.daily[i].temp.max)}
+              </p>
+            </div>
+          </div>
+          `;
+    }
+    // if (forecastDay.getDay() === 6) {
+    //   for (j = 0; j < week - i; j++) {
+    //     weekDisplay.innerHTML += `<div class="card text-center col-sm-12 col-md-2">
+    //         <div class="card-body" id="day">
+    //           <p class="card-title dayName">${days[j]}</p>
+    //           <p class="card-text week-icon">
+    //             <i class="" id="dayIcon"></i>
+    //           </p>
+    //         </div>
+    //       </div>`;
+    //     console.log(days[j]);
+    //   }
+    // }
+  }
+}
+
+axios
+  .get(
+    `https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=hourly,minutely,alerts&units=imperial&appid=2a534937b5f8acf07d8f3ef2e0bea454`
+  )
+  .then(logForecast);
 
 function handleSubmit(event) {
   event.preventDefault();
