@@ -94,12 +94,14 @@ function logForecast(response) {
   let weekDisplay = document.querySelector(".week");
   let forecastDay = new Date();
   let week = 7;
+  //add function to match temp to days[i]
+
   for (i = 0; i < week; i++) {
     console.log(days[i]);
     console.log(response.data.daily[i]);
     if (days[i] !== days[forecastDay.getDay()]) {
       weekDisplay.innerHTML += `
-          <div class="card text-center col-sm-12 col-md-2">
+          <div class="card text-center col-sm-12 col-md-4 col-lg-2 mx-auto">
             <div class="card-body" id="day">
               <span class="card-title dayName">${days[i]}</span><br />
               <i class="fas fa-cloud" id="dayIcon"></i>
