@@ -18,13 +18,13 @@ body {
 
 .body-container {
   min-height: 100vh;
-  padding: 5% 0;
+  padding: 5% 3%;
 }
 
 .container {
   display: block;
   margin: 0 auto;
-  max-width: 80%;
+  max-width: 900px;
   min-width: 400px;
   border-radius: 0.5rem;
 }
@@ -214,8 +214,8 @@ h2 {
 #github {
   color: black;
   font-size: 0.8rem;
-  margin-top: 20px;
-  /* margin-bottom: 0; */
+  /* margin-top: 50px; */
+  margin-bottom: 0;
   display: block;
   text-align: center;
 }

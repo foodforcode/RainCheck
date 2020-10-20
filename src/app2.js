@@ -6,20 +6,23 @@ let dayIcon = document.querySelector("#dayIcon");
 let farenheit;
 let unitF = document.querySelector("#unitF");
 let unitC = document.querySelector("#unitC");
-let date = new Date();
+
 let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-let day = days[date.getDay()];
-let hour = date.getHours();
-let minute = date.getMinutes();
 
 function displayDate() {
+  let date = new Date();
+  let day = days[date.getDay()];
+  let hour = date.getHours();
+  let minute = date.getMinutes();
+
   if (hour < 10) {
     hour = `0${hour}`;
-  } else if (hour !== 2300 && minute > 30) {
-    hour = hour + 1;
-  } else if (hour == 23 && minute > 30) {
-    hour = 00;
   }
+  // else if (hour !== 2300 && minute > 30) {
+  //   hour = hour + 1;
+  // } else if (hour == 23 && minute > 30) {
+  //   hour = 00;
+  // }
 
   if (minute < 10) {
     minute = `0${minute}`;
