@@ -110,8 +110,8 @@ function displayForecast(response) {
             </div>
           </div>
           `;
-    let dayIcon = document.querySelector("#dayIcon");
-    displayWeatherIcon(response.data.daily[i].weather[0].id, dayIcon);
+    let dayIcon = document.querySelectorAll("#dayIcon");
+    displayWeatherIcon(response.data.daily[i].weather[0].id, dayIcon[i]);
   }
 }
 
