@@ -115,14 +115,6 @@ function displayForecast(response) {
   }
 }
 
-// function getForecast(coordLat, coordLon) {
-//   axios
-//     .get(
-//       `https://api.openweathermap.org/data/2.5/onecall?lat=${coordLat}&lon=${coordLon}&exclude=hourly,minutely,alerts&units=imperial&appid=2a534937b5f8acf07d8f3ef2e0bea454`
-//     )
-//     .then(displayForecast);
-// }
-
 function handleSubmit(event) {
   event.preventDefault();
   searchCity(cityInput.value);
@@ -167,4 +159,22 @@ for (let i = 0; i < unitButtons.length; i++) {
     }
   });
 }
-searchCity("San Francisco");
+// searchCity("San Francisco");
+var cities = [
+  "San Francisco",
+  "Tokyo",
+  "Washington DC",
+  "Miami",
+  "Mexico City",
+  "Paris",
+  "Sydney",
+  "London",
+  "Amsterdam",
+];
+function pickRandomCity() {
+  let randomCity = cities[Math.floor(Math.random() * 9)];
+  console.log(randomCity);
+
+  searchCity(randomCity);
+}
+pickRandomCity();

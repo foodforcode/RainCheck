@@ -4,7 +4,7 @@ html {
 body {
   font-family: "Raleway", sans-serif;
   font-weight: 500;
-  max-width: auto;
+  /* max-width: auto; */
   min-height: 100%;
   background: linear-gradient(150deg, #eaefe4 0%, #b9c9f1 80%) no-repeat;
   background: -moz-linear-gradient(150deg, #eaefe4 0%, #b9c9f1 80%) no-repeat;
@@ -67,7 +67,7 @@ body {
   padding-top: 3px;
   padding-left: 2px;
   width: 100%;
-  text-align: right;
+  text-align: center;
 }
 
 .unit {
