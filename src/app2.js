@@ -7,7 +7,15 @@ let farenheit;
 let unitF = document.querySelector("#unitF");
 let unitC = document.querySelector("#unitC");
 
-let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+let days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 function displayDate() {
   let date = new Date();
@@ -33,39 +41,24 @@ function displayDate() {
 }
 
 function displayWeatherIcon(response, icon) {
-  if (response.data.weather[0].id == 800) {
+  if (response == 800) {
     icon.setAttribute("class", "fas fa-sun");
-  } else if (
-    response.data.weather[0].id > 199 &&
-    response.data.weather[0].id < 300
-  ) {
+  } else if (response > 199 && response < 300) {
     icon.setAttribute("class", "fas fa-poo-storm");
   } else if (
-    (response.data.weather[0].id > 299 && response.data.weather[0].id < 312) ||
-    (response.data.weather[0].id >= 500 && response.data.weather[0].id < 502)
+    (response > 299 && response < 312) ||
+    (response >= 500 && response < 502)
   ) {
     icon.setAttribute("class", "fas fa-cloud-rain");
-  } else if (
-    response.data.weather[0].id >= 312 &&
-    response.data.weather[0].id < 600
-  ) {
+  } else if (response >= 312 && response < 600) {
     icon.setAttribute("class", "fas fa-cloud-showers-heavy");
-  } else if (
-    response.data.weather[0].id >= 600 &&
-    response.data.weather[0].id < 700
-  ) {
+  } else if (response >= 600 && response < 700) {
     icon.setAttribute("class", "far fa-snowflake");
-  } else if (
-    response.data.weather[0].id >= 700 &&
-    response.data.weather[0].id < 800
-  ) {
+  } else if (response >= 700 && response < 800) {
     icon.setAttribute("class", "fas fa-smog");
-  } else if (
-    response.data.weather[0].id == 801 ||
-    response.data.weather[0].id == 802
-  ) {
+  } else if (response == 801 || response == 802) {
     icon.setAttribute("class", "fas fa-cloud-sun");
-  } else if (response.data.weather[0].id == 803 || 804) {
+  } else if (response == 803 || 804) {
     icon.setAttribute("class", "fas fa-cloud");
   }
 }
@@ -76,68 +69,59 @@ function displayCityWeather(response) {
   let featureDesc = document.querySelector(".feature-desc");
   let city = response.data.name;
   let country = response.data.sys.country;
+  let coordLon = response.data.coord.lon;
+  let coordLat = response.data.coord.lat;
   farenheit = response.data.main.temp;
   featureTemp.innerHTML = Math.round(response.data.main.temp);
   cityDisplay.innerHTML = `${city}, ${country}`;
   featureDesc.innerHTML = response.data.weather[0].description;
   displayDate();
-  displayWeatherIcon(response, featureIcon);
+  displayWeatherIcon(response.data.weather[0].id, featureIcon);
+  axios
+    .get(
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${coordLat}&lon=${coordLon}&exclude=hourly,minutely,alerts&units=imperial&appid=2a534937b5f8acf07d8f3ef2e0bea454`
+    )
+    .then(displayForecast);
 }
 
 function searchCity(city) {
   let apiKey = "2a534937b5f8acf07d8f3ef2e0bea454";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
   axios.get(apiUrl).then(displayCityWeather);
-  // console.log(apiUrl);
 }
 
-function logForecast(response) {
-  // console.log(response.data);
-
+function displayForecast(response) {
+  console.log(response.data);
   let weekDisplay = document.querySelector(".week");
   let forecastDay = new Date();
-  let week = 7;
-  //add function to match temp to days[i]
+  weekDisplay.innerHTML = "";
 
-  for (i = 0; i < week; i++) {
-    console.log(days[i]);
-    console.log(response.data.daily[i]);
-    if (days[i] !== days[forecastDay.getDay()]) {
-      weekDisplay.innerHTML += `
+  for (i = 0; i < 6; i++) {
+    weekDisplay.innerHTML += `
           <div class="card text-center col-sm-12 col-md-4 col-lg-2 mx-auto">
             <div class="card-body" id="day">
-              <span class="card-title dayName">${days[i]}</span><br />
-              <i class="fas fa-cloud" id="dayIcon"></i>
-              <p class="card-text week-icon">${Math.round(
+              <span class="card-title dayName"></span>
+              <p class="card-text week-temp">Low: ${Math.round(
                 response.data.daily[i].temp.min
-              )} -
+              )} High: 
                 ${Math.round(response.data.daily[i].temp.max)}
               </p>
+              <i class="fas fa-rain" id="dayIcon"></i>
             </div>
           </div>
           `;
-    }
-    // if (forecastDay.getDay() === 6) {
-    //   for (j = 0; j < week - i; j++) {
-    //     weekDisplay.innerHTML += `<div class="card text-center col-sm-12 col-md-2">
-    //         <div class="card-body" id="day">
-    //           <p class="card-title dayName">${days[j]}</p>
-    //           <p class="card-text week-icon">
-    //             <i class="" id="dayIcon"></i>
-    //           </p>
-    //         </div>
-    //       </div>`;
-    //     console.log(days[j]);
-    //   }
-    // }
+    let dayIcon = document.querySelector("#dayIcon");
+    displayWeatherIcon(response.data.daily[i].weather[0].id, dayIcon);
   }
 }
 
-axios
-  .get(
-    `https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=hourly,minutely,alerts&units=imperial&appid=2a534937b5f8acf07d8f3ef2e0bea454`
-  )
-  .then(logForecast);
+// function getForecast(coordLat, coordLon) {
+//   axios
+//     .get(
+//       `https://api.openweathermap.org/data/2.5/onecall?lat=${coordLat}&lon=${coordLon}&exclude=hourly,minutely,alerts&units=imperial&appid=2a534937b5f8acf07d8f3ef2e0bea454`
+//     )
+//     .then(displayForecast);
+// }
 
 function handleSubmit(event) {
   event.preventDefault();

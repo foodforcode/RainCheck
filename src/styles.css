@@ -152,10 +152,15 @@ h2 {
 }
 
 .week {
-  padding-top: 40px;
+  /* padding-top: 40px; */
   width: 100%;
   white-space: nowrap;
   text-align: center;
+}
+
+#forecastTitle {
+  display: block;
+  margin: 0 auto;
 }
 
 #day {
@@ -164,6 +169,10 @@ h2 {
 
 .dayName {
   text-transform: uppercase;
+}
+
+#dayIcon {
+  font-size: 2rem;
 }
 
 .card {
@@ -194,8 +203,8 @@ h2 {
   padding: 0;
 }
 
-.week-icon {
-  font-size: 15px;
+.week-temp {
+  margin: 2px 0px 10px 0px;
 }
 
 .warm-bgd {
