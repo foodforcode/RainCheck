@@ -103,7 +103,7 @@ function displayForecast(response) {
           <div class="card text-center col-sm-12 col-md-4 col-lg-2 mx-auto">
             <div class="card-body" id="day">
               <span class="card-title dayName"></span>
-              <p class="card-text week-temp unitTempF">Low: ${Math.round(
+              <p class="card-text week-temp tempUnitF">Low: ${Math.round(
                 response.data.daily[i].temp.min
               )} High: 
                 ${Math.round(response.data.daily[i].temp.max)}
@@ -161,10 +161,10 @@ function addListeners() {
         unitButtons[1].classList.add("selected");
         unitButtons[0].classList.remove("selected");
         tempUnitF.forEach((tempUnit) => {
-          tempUnit.classList.add('hide');
+          tempUnit.classList.add("hide");
         });
         tempUnitC.forEach((tempUnit) => {
-          tempUnit.classList.remove('hide');
+          tempUnit.classList.remove("hide");
         });
         let celsius = (farenheit - 32) * (5 / 9);
         featureTemp.innerHTML = Math.round(celsius);
@@ -174,10 +174,10 @@ function addListeners() {
         unitButtons[0].classList.add("selected");
         unitButtons[1].classList.remove("selected");
         tempUnitF.forEach((tempUnit) => {
-          tempUnit.classList.remove('hide');
+          tempUnit.classList.remove("hide");
         });
         tempUnitC.forEach((tempUnit) => {
-          tempUnit.classList.add('hide');
+          tempUnit.classList.add("hide");
         });
       }
     });
