@@ -6,6 +6,8 @@ let dayIcon = document.querySelector("#dayIcon");
 let farenheit;
 let unitF = document.querySelector("#unitF");
 let unitC = document.querySelector("#unitC");
+let tempUnitF;
+let temmpUnitC;
 
 let days = [
   "Sunday",
@@ -106,6 +108,11 @@ function displayForecast(response) {
               )} High: 
                 ${Math.round(response.data.daily[i].temp.max)}
               </p>
+              <p class="card-text week-temp tempUnitC hide">Low: ${Math.round(
+                (response.data.daily[i].temp.min - 32) * (5 / 9)
+              )} High: 
+                ${Math.round((response.data.daily[i].temp.max - 32) * (5 / 9))}
+              </p>
               <i class="fas fa-rain" id="dayIcon"></i>
             </div>
           </div>
@@ -113,6 +120,9 @@ function displayForecast(response) {
     let dayIcon = document.querySelectorAll("#dayIcon");
     displayWeatherIcon(response.data.daily[i].weather[0].id, dayIcon[i]);
   }
+  tempUnitF = document.querySelectorAll('.tempUnitF');
+  tempUnitC = document.querySelectorAll('.tempUnitC');
+  addListeners();
 }
 
 function handleSubmit(event) {
@@ -143,22 +153,37 @@ function getCurrentPosition() {
 let form = document.querySelector(".input-form");
 form.addEventListener("submit", handleSubmit);
 
-for (let i = 0; i < unitButtons.length; i++) {
-  unitButtons[i].addEventListener("click", function (event) {
-    if (this.textContent === "°C") {
-      event.preventDefault();
-      unitButtons[1].classList.add("selected");
-      unitButtons[0].classList.remove("selected");
-      let celsius = (farenheit - 32) * (5 / 9);
-      featureTemp.innerHTML = Math.round(celsius);
-    } else if (this.textContent === "°F") {
-      event.preventDefault();
-      featureTemp.innerHTML = Math.round(farenheit);
-      unitButtons[0].classList.add("selected");
-      unitButtons[1].classList.remove("selected");
-    }
-  });
+function addListeners() {
+  for (let i = 0; i < unitButtons.length; i++) {
+    unitButtons[i].addEventListener("click", function (event) {
+      if (this.textContent === "°C") {
+        event.preventDefault();
+        unitButtons[1].classList.add("selected");
+        unitButtons[0].classList.remove("selected");
+        tempUnitF.forEach((tempUnit) => {
+          tempUnit.classList.add('hide');
+        });
+        tempUnitC.forEach((tempUnit) => {
+          tempUnit.classList.remove('hide');
+        });
+        let celsius = (farenheit - 32) * (5 / 9);
+        featureTemp.innerHTML = Math.round(celsius);
+      } else if (this.textContent === "°F") {
+        event.preventDefault();
+        featureTemp.innerHTML = Math.round(farenheit);
+        unitButtons[0].classList.add("selected");
+        unitButtons[1].classList.remove("selected");
+        tempUnitF.forEach((tempUnit) => {
+          tempUnit.classList.remove('hide');
+        });
+        tempUnitC.forEach((tempUnit) => {
+          tempUnit.classList.add('hide');
+        });
+      }
+    });
+  }
 }
+
 // searchCity("San Francisco");
 var cities = [
   "San Francisco",
