@@ -103,7 +103,7 @@ function displayForecast(response) {
           <div class="card text-center col-sm-12 col-md-4 col-lg-2 mx-auto">
             <div class="card-body" id="day">
               <span class="card-title dayName"></span>
-              <p class="card-text week-temp">Low: ${Math.round(
+              <p class="card-text week-temp unitTempF">Low: ${Math.round(
                 response.data.daily[i].temp.min
               )} High: 
                 ${Math.round(response.data.daily[i].temp.max)}
